@@ -39,6 +39,7 @@ export async function getCreationDate(username: string, repo: string): Promise<s
     }
 
     const apiUrl = `https://ungh.cc/repos/${username}/${repo}`;
+    log('fetching API...', apiUrl);
     return new Promise((resolve) => {
         GM_xmlhttpRequest({
             method: 'GET',
