@@ -1,6 +1,13 @@
 export function isGithubRepoPathname(pathname: string): boolean {
-    const pathLength = pathname.split('/').length;
-    return pathLength === 3;
+    const notUsername = new Set([
+        'settings',
+        'topics',
+        'organizations',
+    ])
+    const pathParts = pathname.split('/');
+    const pathLength = pathParts.length;
+    const username = pathParts[1];
+    return !notUsername.has(username) && pathLength === 3;
 }
 
 export function extractUsernameAndRepo(pathname: string): { username: string; repo: string } | null {
