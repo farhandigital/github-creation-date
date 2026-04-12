@@ -3,7 +3,7 @@ import { log } from '../utils/logger'
 
 function getTargetElement() {
     // Find the parent container that has the "About" h2
-    const aboutHeadings = document.querySelectorAll('h2');
+    const aboutHeadings = document.querySelectorAll('.BorderGrid-cell h2');
     let parentContainer: Element | null = null;
     
     for (const heading of aboutHeadings) {
