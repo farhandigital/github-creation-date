@@ -34,7 +34,7 @@ export async function getCreationDate(username: string, repo: string): Promise<s
     const cacheKey = `${username}/${repo}`;
     const cached = getCached(cacheKey);
     if (cached) {
-        log(`[cache] ${cacheKey}: ${cached}`);
+        log(`cache found: ${cacheKey}: ${cached}`);
         return cached;
     }
 

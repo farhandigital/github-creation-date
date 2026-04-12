@@ -10,20 +10,26 @@ async function main() {
       log('Already running. Skipping.');
       return;
     }
-    log('Starting...');
+    log('Starting orchestrator...');
     isRunning = true;
 
     try {
         const hostname = window.location.hostname;
         if (hostname !== 'github.com') return;
         const pathname = window.location.pathname;
-        if (!isGithubRepoPathname(pathname)) return;
+        if (!isGithubRepoPathname(pathname)) {
+            log('Not a github repo pathname, skipping...', pathname);
+            return;
+        }
         if (isAlreadyInjected()) {
             log('Creation date element already exists. Skipping injection.');
             return;
         }
         const repoInfo = extractUsernameAndRepo(pathname);
-        if (!repoInfo) return;
+        if (!repoInfo) {
+            log('Failed to extract username and repo, skipping...', pathname);
+            return;
+        }
 
         const { username, repo } = repoInfo;
         const creationDate = await getCreationDate(username, repo);
