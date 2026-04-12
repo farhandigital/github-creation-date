@@ -1,14 +1,14 @@
-function isGithubRepoUrl(url: string): boolean {
-    const githubRepoUrlPattern = /^https:\/\/github\.com\/[^\/]+\/[^\/]+(\/)?$/;
-    return githubRepoUrlPattern.test(url);
+export function isGithubRepoPathname(pathname: string): boolean {
+    const pathLength = pathname.split('/').length;
+    return pathLength === 3;
 }
 
-export function extractUsernameAndRepo(url: string): { username: string; repo: string } | null {
-    if (!isGithubRepoUrl(url)) {
+export function extractUsernameAndRepo(pathname: string): { username: string; repo: string } | null {
+    if (!isGithubRepoPathname(pathname)) {
         return null;
     }
-    const parts = url.split('/').filter(part => part.length > 0);
-    const username = parts[parts.length - 2];
-    const repo = parts[parts.length - 1];
+    const parts = pathname.split('/');
+    const username = parts[0];
+    const repo = parts[1];
     return { username, repo };
 }
