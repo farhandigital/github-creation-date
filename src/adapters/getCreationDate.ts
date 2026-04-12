@@ -30,12 +30,34 @@ function isUnghRepoResponse(data: unknown): data is UnghRepoResponse {
     );
 }
 
+const INITIAL_BACKOFF_MS = 5_000; // 5 seconds
+
+interface FailureState {
+    failedAt: number;
+    delay: number;
+}
+
+const failedKeys = new Map<string, FailureState>();
+
+function recordFailure(cacheKey: string): void {
+    const prev = failedKeys.get(cacheKey);
+    const delay = prev ? prev.delay * 2 : INITIAL_BACKOFF_MS;
+    failedKeys.set(cacheKey, { failedAt: Date.now(), delay });
+    log(`Backoff for ${cacheKey}: next retry in ${delay / 1000}s`);
+}
+
 export async function getCreationDate(username: string, repo: string): Promise<string> {
     const cacheKey = `${username}/${repo}`;
     const cached = getCached(cacheKey);
     if (cached) {
         log(`cache found: ${cacheKey}: ${cached}`);
         return cached;
+    }
+
+    const failure = failedKeys.get(cacheKey);
+    if (failure !== undefined && Date.now() - failure.failedAt < failure.delay) {
+        log(`Skipping previously failed key (backoff active): ${cacheKey}`);
+        return 'Unknown';
     }
 
     const apiUrl = `https://ungh.cc/repos/${username}/${repo}`;
@@ -47,6 +69,7 @@ export async function getCreationDate(username: string, repo: string): Promise<s
             onload: (response) => {
                 if (response.status !== 200) {
                     console.error('GitHub API error:', response.statusText);
+                    recordFailure(cacheKey);
                     resolve('Unknown');
                     return;
                 }
@@ -57,15 +80,18 @@ export async function getCreationDate(username: string, repo: string): Promise<s
                         resolve(data.repo.createdAt);
                     } else {
                         console.error('Invalid response data:', data);
+                        recordFailure(cacheKey);
                         resolve('Unknown');
                     }
                 } catch (error) {
                     console.error('Error parsing response:', error);
+                    recordFailure(cacheKey);
                     resolve('Unknown');
                 }
             },
             onerror: (error) => {
                 console.error('Network error:', error);
+                recordFailure(cacheKey);
                 resolve('Unknown');
             },
         });
