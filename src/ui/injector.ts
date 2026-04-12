@@ -1,16 +1,30 @@
 import { formatDate } from '../utils/date';
 
 function getTargetElement() {
-    // The selector targets the "Readme" metadata element in the sidebar
-    const readmeSelector = "a[href='#readme-ov-file']";
-    const readmeElement = document.querySelector(readmeSelector);
+    // Find the parent container that has the "About" h2
+    const aboutHeadings = document.querySelectorAll('h2');
+    let parentContainer: Element | null = null;
+    
+    for (const heading of aboutHeadings) {
+        if (heading.textContent?.trim().toLowerCase() === 'about') {
+            parentContainer = heading.parentElement;
+            break;
+        }
+    }
+
+    // Must have About parent to proceed
+    if (!parentContainer) {
+        return undefined;
+    }
+
+    // Primary: Look for Readme within the About parent
+    const readmeElement = parentContainer.querySelector("a[href='#readme-ov-file']");
     if (readmeElement) {
         return readmeElement.parentElement;
     }
 
-    // Fallback to Activity element if Readme doesn't exist
-    const activitySelector = "a[href*='/activity']";
-    const activityElement = document.querySelector(activitySelector);
+    // Fallback: Look for Activity within the SAME About parent
+    const activityElement = parentContainer.querySelector("a[href*='/activity']");
     if (activityElement) {
         return activityElement.parentElement;
     }
