@@ -1,3 +1,5 @@
+import { formatDate } from '../utils/date';
+
 function getSidebar() {
     const allH2Elements = document.querySelectorAll('h2');
     const sidebar = Array.from(allH2Elements).find((h2) => h2.textContent === 'About');
@@ -6,7 +8,7 @@ function getSidebar() {
 
 function createCreationDateElement(creationDate: string) {
     const creationDateElement = document.createElement('p');
-    creationDateElement.textContent = `Creation Date: ${creationDate}`;
+    creationDateElement.textContent = `Creation Date: ${formatDate(new Date(creationDate))}`;
     creationDateElement.dataset.creationDate = "creation-date-element";
     return creationDateElement;
 }
