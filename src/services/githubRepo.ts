@@ -1,5 +1,5 @@
 import { GM_xmlhttpRequest } from "$";
-import { getCached, setCached } from './cache';
+import { getCached, setCached } from '../adapters/cache';
 import { log } from '../utils/logger'
 
 interface GitHubRepo {

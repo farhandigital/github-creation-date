@@ -1,4 +1,4 @@
-import { getCreationDate } from "./adapters/getCreationDate";
+import { getCreationDate } from "./services/githubRepo";
 import { injectCreationDate, isAlreadyInjected } from "./ui/injector";
 import { isGithubRepoPathname, extractUsernameAndRepo } from "./utils/url";
 import { log } from './utils/logger'
