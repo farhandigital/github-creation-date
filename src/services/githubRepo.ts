@@ -30,7 +30,7 @@ function isUnghRepoResponse(data: unknown): data is UnghRepoResponse {
     );
 }
 
-const INITIAL_BACKOFF_MS = 5_000; // 5 seconds
+const INITIAL_BACKOFF_MS = 1_000; // 1 seconds
 
 interface FailureState {
     failedAt: number;
