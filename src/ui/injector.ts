@@ -1,9 +1,9 @@
 import { formatDate } from '../utils/date';
 
 function getTargetElement() {
-    const allH2Elements = document.querySelectorAll('h2');
-    const sidebar = Array.from(allH2Elements).find((h2) => h2.textContent === 'About');
-    return sidebar;
+    // The selector targets the "Readme" metadata element in the sidebar
+    const selector = "a[href='#readme-ov-file']";
+    return document.querySelector(selector)?.parentElement;
 }
 
 function createCreationDateElement(creationDate: string) {
@@ -22,6 +22,6 @@ export function injectCreationDate(creationDate: string) {
     const targetElement = getTargetElement();
     if (targetElement) {
         const creationDateElement = createCreationDateElement(creationDate);
-        targetElement.appendChild(creationDateElement);
+        targetElement.insertAdjacentElement('afterend', creationDateElement);
     }
 }
