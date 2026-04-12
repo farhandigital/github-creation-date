@@ -1,4 +1,5 @@
 import { formatDate } from '../utils/date';
+import { log } from '../utils/logger'
 
 function getTargetElement() {
     // Find the parent container that has the "About" h2
@@ -58,5 +59,5 @@ export function injectCreationDate(creationDate: string) {
         targetElement.insertAdjacentElement('afterend', creationDateElement);
         return;
     }
-    console.log("Target element not found", targetElement);
+    log("Target element not found", targetElement);
 }

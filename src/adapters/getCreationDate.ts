@@ -1,5 +1,6 @@
 import { GM_xmlhttpRequest } from "$";
 import { getCached, setCached } from './cache';
+import { log } from '../utils/logger'
 
 interface GitHubRepo {
     id: number;
@@ -33,7 +34,7 @@ export async function getCreationDate(username: string, repo: string): Promise<s
     const cacheKey = `${username}/${repo}`;
     const cached = getCached(cacheKey);
     if (cached) {
-        console.log(`[cache] ${cacheKey}: ${cached}`);
+        log(`[cache] ${cacheKey}: ${cached}`);
         return cached;
     }
 
