@@ -8,7 +8,7 @@ export function extractUsernameAndRepo(pathname: string): { username: string; re
         return null;
     }
     const parts = pathname.split('/');
-    const username = parts[0];
-    const repo = parts[1];
+    const username = parts[1];
+    const repo = parts[2];
     return { username, repo };
 }
