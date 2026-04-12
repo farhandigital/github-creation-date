@@ -2,8 +2,20 @@ import { formatDate } from '../utils/date';
 
 function getTargetElement() {
     // The selector targets the "Readme" metadata element in the sidebar
-    const selector = "a[href='#readme-ov-file']";
-    return document.querySelector(selector)?.parentElement;
+    const readmeSelector = "a[href='#readme-ov-file']";
+    const readmeElement = document.querySelector(readmeSelector);
+    if (readmeElement) {
+        return readmeElement.parentElement;
+    }
+
+    // Fallback to Activity element if Readme doesn't exist
+    const activitySelector = "a[href*='/activity']";
+    const activityElement = document.querySelector(activitySelector);
+    if (activityElement) {
+        return activityElement.parentElement;
+    }
+
+    return undefined;
 }
 
 function createCreationDateElement(creationDate: string) {
