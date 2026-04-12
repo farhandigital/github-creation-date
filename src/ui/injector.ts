@@ -9,6 +9,7 @@ function getTargetElement() {
 function createCreationDateElement(creationDate: string) {
     const container = document.createElement('div');
     container.classList.add('mt-2');
+    container.dataset.creationDate = "creation-date-container";
 
     const creationDateElement = document.createElement('a');
     creationDateElement.classList.add('Link--muted');
