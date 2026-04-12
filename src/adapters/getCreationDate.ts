@@ -1,3 +1,5 @@
+import { GM_xmlhttpRequest } from "$";
+
 interface GitHubRepo {
     id: number;
     name: string;
@@ -28,17 +30,33 @@ function isUnghRepoResponse(data: unknown): data is UnghRepoResponse {
 
 export async function getCreationDate(username: string, repo: string): Promise<string> {
     const apiUrl = `https://ungh.cc/repos/${username}/${repo}`;
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.statusText}`);
-        }
-        const data: unknown = await response.json();
-        if (!isUnghRepoResponse(data)) throw new Error('Invalid response data');
-
-        return data.repo.createdAt;
-    } catch (error) {
-        console.error('Error fetching creation date:', error);
-        return 'Unknown';
-    }
+    return new Promise((resolve) => {
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: apiUrl,
+            onload: (response) => {
+                if (response.status !== 200) {
+                    console.error('GitHub API error:', response.statusText);
+                    resolve('Unknown');
+                    return;
+                }
+                try {
+                    const data: unknown = JSON.parse(response.responseText);
+                    if (isUnghRepoResponse(data)) {
+                        resolve(data.repo.createdAt);
+                    } else {
+                        console.error('Invalid response data:', data);
+                        resolve('Unknown');
+                    }
+                } catch (error) {
+                    console.error('Error parsing response:', error);
+                    resolve('Unknown');
+                }
+            },
+            onerror: (error) => {
+                console.error('Network error:', error);
+                resolve('Unknown');
+            },
+        });
+    });
 }

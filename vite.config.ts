@@ -10,6 +10,8 @@ export default defineConfig({
         icon: 'https://cdn.simpleicons.org/github',
         namespace: 'https://github.com/farhandigital/github-creation-date',
         match: ['https://github.com/*'],
+        grant: ['GM_xmlhttpRequest'],
+        connect: ['ungh.cc'],
       },
     }),
   ],
