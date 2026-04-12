@@ -49,7 +49,7 @@ function createCreationDateElement(creationDate: string) {
 }
 
 export function isAlreadyInjected() {
-    const existingElement = document.querySelector(`#${NS}`);
+    const existingElement = document.getElementById(NS);
     return existingElement !== null;
 }
 
