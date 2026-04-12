@@ -56,5 +56,7 @@ export function injectCreationDate(creationDate: string) {
     if (targetElement) {
         const creationDateElement = createCreationDateElement(creationDate);
         targetElement.insertAdjacentElement('afterend', creationDateElement);
+        return;
     }
+    console.log("Target element not found", targetElement);
 }
