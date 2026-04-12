@@ -1,4 +1,5 @@
 import { GM_xmlhttpRequest } from "$";
+import { getCached, setCached } from './cache';
 
 interface GitHubRepo {
     id: number;
@@ -29,6 +30,13 @@ function isUnghRepoResponse(data: unknown): data is UnghRepoResponse {
 }
 
 export async function getCreationDate(username: string, repo: string): Promise<string> {
+    const cacheKey = `${username}/${repo}`;
+    const cached = getCached(cacheKey);
+    if (cached) {
+        console.log(`[cache] ${cacheKey}: ${cached}`);
+        return cached;
+    }
+
     const apiUrl = `https://ungh.cc/repos/${username}/${repo}`;
     return new Promise((resolve) => {
         GM_xmlhttpRequest({
@@ -43,6 +51,7 @@ export async function getCreationDate(username: string, repo: string): Promise<s
                 try {
                     const data: unknown = JSON.parse(response.responseText);
                     if (isUnghRepoResponse(data)) {
+                        setCached(cacheKey, data.repo.createdAt);
                         resolve(data.repo.createdAt);
                     } else {
                         console.error('Invalid response data:', data);
