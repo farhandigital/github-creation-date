@@ -1,6 +1,8 @@
 import { formatDate } from '../utils/date';
 import { log } from '../utils/logger'
 
+const NS = `ghcd_${Math.random().toString(36).slice(2)}`
+
 function getTargetElement() {
     // Find the parent container that has the "About" h2
     const aboutHeadings = document.querySelectorAll('.BorderGrid-cell h2');
@@ -36,7 +38,7 @@ function getTargetElement() {
 function createCreationDateElement(creationDate: string) {
     const container = document.createElement('div');
     container.classList.add('mt-2');
-    container.dataset.creationDate = "creation-date-container";
+    container.id = NS;
 
     const creationDateElement = document.createElement('a');
     creationDateElement.classList.add('Link--muted');
@@ -47,7 +49,7 @@ function createCreationDateElement(creationDate: string) {
 }
 
 export function isAlreadyInjected() {
-    const existingElement = document.querySelector('div[data-creation-date="creation-date-container"]');
+    const existingElement = document.querySelector(`#${NS}`);
     return existingElement !== null;
 }
 
