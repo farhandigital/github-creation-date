@@ -7,14 +7,20 @@ function getTargetElement() {
 }
 
 function createCreationDateElement(creationDate: string) {
+    const container = document.createElement('div');
+    container.dataset.creationDate = "creation-date-container";
+    container.classList.add('mt-2');
+
     const creationDateElement = document.createElement('p');
-    creationDateElement.textContent = `Creation Date: ${formatDate(new Date(creationDate))}`;
+    creationDateElement.classList.add('Link', 'Link--muted');
+    creationDateElement.textContent = `🗓️ ${formatDate(new Date(creationDate))}`;
     creationDateElement.dataset.creationDate = "creation-date-element";
-    return creationDateElement;
+    container.appendChild(creationDateElement);
+    return container;
 }
 
 export function isAlreadyInjected() {
-    const existingElement = document.querySelector('p[data-creation-date="creation-date-element"]');
+    const existingElement = document.querySelector('div[data-creation-date="creation-date-container"]');
     return existingElement !== null;
 }
 
