@@ -1,6 +1,6 @@
 import { formatDate } from '../utils/date';
 
-function getSidebar() {
+function getTargetElement() {
     const allH2Elements = document.querySelectorAll('h2');
     const sidebar = Array.from(allH2Elements).find((h2) => h2.textContent === 'About');
     return sidebar;
@@ -19,9 +19,9 @@ export function isAlreadyInjected() {
 }
 
 export function injectCreationDate(creationDate: string) {
-    const sidebar = getSidebar();
-    if (sidebar) {
+    const targetElement = getTargetElement();
+    if (targetElement) {
         const creationDateElement = createCreationDateElement(creationDate);
-        sidebar.appendChild(creationDateElement);
+        targetElement.appendChild(creationDateElement);
     }
 }
