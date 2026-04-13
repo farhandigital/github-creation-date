@@ -14,6 +14,8 @@ export default defineConfig({
         connect: ['ungh.cc'],
         license: "Zlib",
         version: '1.0.0',
+        author: 'Farhan Digital',
+        description: 'Shows the creation date of GitHub repositories on the repository page metadata sidebar.',
       },
     }),
   ],
