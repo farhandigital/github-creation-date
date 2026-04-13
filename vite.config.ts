@@ -16,6 +16,8 @@ export default defineConfig({
         version: '1.0.0',
         author: 'Farhan Digital',
         description: 'Shows the creation date of GitHub repositories on the repository page metadata sidebar.',
+        updateURL: 'https://update.greasyfork.org/scripts/573707/github-creation-date.meta.js',
+        downloadURL: 'https://update.greasyfork.org/scripts/573707/github-creation-date.user.js',
       },
     }),
   ],
