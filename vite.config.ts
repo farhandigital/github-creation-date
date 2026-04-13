@@ -12,6 +12,7 @@ export default defineConfig({
         match: ['https://github.com/*'],
         grant: ['GM_xmlhttpRequest', 'GM_getValue', 'GM_setValue'],
         connect: ['ungh.cc'],
+        license: "Zlib"
       },
     }),
   ],
